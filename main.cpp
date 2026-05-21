@@ -23,12 +23,16 @@ public:
     {
         return instanceID;
     }
+    PlayerClass(int id) : instanceID(id) {}
 };
 
 class Hero : public PlayerClass
 {
 private:
     CoreStats stats;
+
+public:
+    Hero(int id) : PlayerClass(id) {}
 };
 
 int main(int, char **)
