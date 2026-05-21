@@ -1,38 +1,103 @@
 #include <iostream>
 
+class GameObject
+{
+private:
+    int entityID = 0;
+
+public:
+    int getEntityID()
+    {
+        return entityID;
+    }
+    GameObject(int id) : entityID(id) {}
+};
+
+class Hero : public GameObject
+{
+private:
+    std::string heroName = "";
+    int attackDamage = 0;
+
+public:
+    std::string getName()
+    {
+        return heroName;
+    }
+};
+
 class CoreStats
 {
 private:
-    int health = 100;
-    int attackPoints = 0;
+    int health = 0;
+    int mana = 0;
 
 public:
-    void modifyHealth(int val)
+    CoreStats(int h, int m)
     {
-        health = val;
+        health = h;
+        mana = m;
+    }
+    void modifyHealth(int h)
+    {
+        health += h;
+    }
+    void modifyMana(int m)
+    {
+        mana += m;
+    }
+    int getHealth()
+    {
+        return health;
+    }
+    int getMana()
+    {
+        return mana;
     }
 };
 
-class PlayerClass
+class Potion
 {
 private:
-    int instanceID = 0;
+    int healthBoost = 0;
+    int attackBoost = 0;
 
 public:
-    int getID()
+    int getHealthBoost()
     {
-        return instanceID;
+        return healthBoost;
     }
-    PlayerClass(int id) : instanceID(id) {}
+    int getAttackBoost()
+    {
+        return attackBoost;
+    }
 };
 
-class Hero : public PlayerClass
+class Weapon
 {
-private:
-    CoreStats stats;
+protected:
+    std::string name = "";
+    int baseDamage = 0;
 
 public:
-    Hero(int id) : PlayerClass(id) {}
+    Weapon(std::string n, int d) : name(n), baseDamage(d) {}
+    virtual void attack()
+    {
+        std::cout << "Attack\n";
+    }
+};
+
+class Sword : public Weapon
+{
+private:
+    int sharpness = 0;
+
+public:
+    Sword(std::string n, int d, int s) : Weapon(n, d), sharpness(s) {}
+    void attack() override
+    {
+        std::cout << "Slash with " << name << "\n damage: " << (baseDamage + sharpness) << "\n";
+    }
 };
 
 int main(int, char **)
