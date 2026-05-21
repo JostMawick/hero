@@ -1,32 +1,5 @@
 #include <iostream>
 
-class GameObject
-{
-private:
-    int entityID = 0;
-
-public:
-    GameObject(int id) : entityID(id) {}
-    int getEntityID()
-    {
-        return entityID;
-    }
-};
-
-class Hero : public GameObject
-{
-private:
-    std::string heroName = "";
-    int attackDamage = 0;
-
-public:
-    Hero(int id, std::string name, int damage) : GameObject(id), heroName(name), attackDamage(damage) {}
-    std::string getName()
-    {
-        return heroName;
-    }
-};
-
 class CoreStats
 {
 private:
@@ -135,6 +108,37 @@ public:
     int getHealthBoost()
     {
         return healthBoost;
+    }
+};
+
+class GameObject
+{
+private:
+    int entityID = 0;
+
+public:
+    GameObject(int id) : entityID(id) {}
+    int getEntityID()
+    {
+        return entityID;
+    }
+};
+
+class Hero : public GameObject
+{
+private:
+    std::string heroName = "";
+    int attackDamage = 0;
+    CoreStats stats;
+    MysticalTattoo soulMark;
+    Guild *guild = nullptr;
+    Weapon *weapon = nullptr;
+
+public:
+    Hero(int id, std::string name, int damage) : GameObject(id), heroName(name), attackDamage(damage) {}
+    std::string getName()
+    {
+        return heroName;
     }
 };
 
