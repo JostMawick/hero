@@ -6,11 +6,11 @@ private:
     int entityID = 0;
 
 public:
+    GameObject(int id) : entityID(id) {}
     int getEntityID()
     {
         return entityID;
     }
-    GameObject(int id) : entityID(id) {}
 };
 
 class Hero : public GameObject
@@ -20,6 +20,7 @@ private:
     int attackDamage = 0;
 
 public:
+    Hero(int id, std::string name, int damage) : GameObject(id), heroName(name), attackDamage(damage) {}
     std::string getName()
     {
         return heroName;
@@ -97,6 +98,43 @@ public:
     void attack() override
     {
         std::cout << "Slash with " << name << "\n damage: " << (baseDamage + sharpness) << "\n";
+    }
+};
+
+class Guild
+{
+private:
+    std::string guildName = "";
+    int memberCount = 0;
+
+public:
+    Guild(std::string name, int count) : guildName(name), memberCount(count) {}
+    std::string getGuildName()
+    {
+        return guildName;
+    }
+    int getMemberCount()
+    {
+        return memberCount;
+    }
+    // Member logic still missing
+};
+
+class MysticalTattoo
+{
+private:
+    std::string tattooName = "";
+    int healthBoost = 0;
+
+public:
+    MysticalTattoo(std::string name, int boost) : tattooName(name), healthBoost(boost) {}
+    std::string getTattooName()
+    {
+        return tattooName;
+    }
+    int getHealthBoost()
+    {
+        return healthBoost;
     }
 };
 
