@@ -59,6 +59,10 @@ public:
     {
         std::cout << "Attack\n";
     }
+    virtual std::string getName()
+    {
+        return name;
+    }
 };
 
 class Sword : public Weapon
@@ -173,6 +177,33 @@ public:
             std::cout << heroName << "left guild" << guild->getGuildName() << "!\n";
             guild->decrementCount();
             guild = nullptr;
+        }
+    }
+
+    void equipWeapon(Weapon *w)
+    {
+        weapon = w;
+        std::cout << heroName << "equipped " << weapon->getName() << "!\n";
+    }
+
+    void unequipWeapon()
+    {
+        if (weapon != nullptr)
+        {
+            std::cout << heroName << "unequipped " << weapon->getName() << "!\n";
+            weapon = nullptr;
+        }
+    }
+
+    void attack()
+    {
+        if (weapon != nullptr)
+        {
+            weapon->attack();
+        }
+        else
+        {
+            std::cout << heroName << "attacks with bare hands! damage: " << attackDamage << "\n";
         }
     }
 };
