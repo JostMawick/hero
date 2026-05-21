@@ -90,7 +90,17 @@ public:
     {
         return memberCount;
     }
-    // Member logic still missing
+    void incrementCount()
+    {
+        memberCount++;
+    }
+    void decrementCount()
+    {
+        if (memberCount > 0)
+        {
+            memberCount--;
+        }
+    }
 };
 
 class MysticalTattoo
@@ -135,10 +145,35 @@ private:
     Weapon *weapon = nullptr;
 
 public:
-    Hero(int id, std::string name, int damage) : GameObject(id), heroName(name), attackDamage(damage) {}
+    Hero(int id, std::string name, int damage, int h, int m, std::string tattoo, int boost)
+        : GameObject(id),
+          heroName(name),
+          attackDamage(damage),
+          stats(h, m),
+          soulMark(tattoo, boost)
+    {
+    }
+
     std::string getName()
     {
         return heroName;
+    }
+
+    void joinGuild(Guild *g)
+    {
+        guild = g;
+        guild->incrementCount();
+        std::cout << heroName << "joined guild" << guild->getGuildName() << "!\n";
+    }
+
+    void leaveGuild()
+    {
+        if (guild != nullptr)
+        {
+            std::cout << heroName << "left guild" << guild->getGuildName() << "!\n";
+            guild->decrementCount();
+            guild = nullptr;
+        }
     }
 };
 
