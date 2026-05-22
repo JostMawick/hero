@@ -37,6 +37,7 @@ private:
     int attackBoost = 0;
 
 public:
+    Potion(int h, int a) : healthBoost(h), attackBoost(a) {}
     int getHealthBoost()
     {
         return healthBoost;
@@ -205,6 +206,13 @@ public:
         {
             std::cout << heroName << "attacks with bare hands! damage: " << attackDamage << "\n";
         }
+    }
+
+    void usePotion(Potion p)
+    {
+        stats.modifyHealth(p.getHealthBoost());
+        attackDamage += p.getAttackBoost();
+        std::cout << heroName << " used a potion! Health: " << stats.getHealth() << " Attack: " << attackDamage << "\n";
     }
 };
 
