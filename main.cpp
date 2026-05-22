@@ -154,8 +154,8 @@ public:
         : GameObject(id),
           heroName(name),
           attackDamage(damage),
-          stats(h, m),
-          soulMark(tattoo, boost)
+          soulMark(tattoo, boost),
+          stats(h + boost, m)
     {
     }
 
