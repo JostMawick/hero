@@ -144,13 +144,13 @@ class Hero : public GameObject
 private:
     std::string heroName = "";
     int attackDamage = 0;
-    CoreStats stats;
     MysticalTattoo soulMark;
+    CoreStats stats;
     Guild *guild = nullptr;
     Weapon *weapon = nullptr;
 
 public:
-    Hero(int id, std::string name, int damage, int h, int m, std::string tattoo, int boost)
+    Hero(int id, std::string name, int damage, std::string tattoo, int boost, int h, int m)
         : GameObject(id),
           heroName(name),
           attackDamage(damage),
@@ -218,5 +218,28 @@ public:
 
 int main(int, char **)
 {
-    std::cout << "Hello, from hero!\n";
+
+    Guild myGuild("Dragon Slayers", 5);
+    Sword mySword("Excalibur", 30, 15);
+    Potion myPotion(50, 10);
+
+    // Create hero on heap to show that guild lives after he dies
+    Hero *hero = new Hero(1, "Arthas", 10, "Flamme", 20, 100, 50);
+
+    hero->joinGuild(&myGuild);
+    hero->equipWeapon(&mySword);
+
+    hero->attack();
+    hero->usePotion(myPotion);
+    hero->attack();
+
+    hero->leaveGuild();
+    delete hero;
+    hero = nullptr;
+
+    std::cout << "\n--- After the heros death ---\n";
+    std::cout << "Guild '" << myGuild.getGuildName()
+              << "' guild has " << myGuild.getMemberCount() << " members!\n";
+    std::cout << "Sword '" << mySword.getName()
+              << "' lies still on the ground!\n";
 }
