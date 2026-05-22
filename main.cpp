@@ -137,6 +137,7 @@ public:
     {
         return entityID;
     }
+    virtual ~GameObject() {}
 };
 
 class Hero : public GameObject
@@ -168,14 +169,14 @@ public:
     {
         guild = g;
         guild->incrementCount();
-        std::cout << heroName << "joined guild" << guild->getGuildName() << "!\n";
+        std::cout << heroName << " joined guild " << guild->getGuildName() << "!\n";
     }
 
     void leaveGuild()
     {
         if (guild != nullptr)
         {
-            std::cout << heroName << "left guild" << guild->getGuildName() << "!\n";
+            std::cout << heroName << " left guild " << guild->getGuildName() << "!\n";
             guild->decrementCount();
             guild = nullptr;
         }
@@ -184,14 +185,14 @@ public:
     void equipWeapon(Weapon *w)
     {
         weapon = w;
-        std::cout << heroName << "equipped " << weapon->getName() << "!\n";
+        std::cout << heroName << " equipped " << weapon->getName() << "!\n";
     }
 
     void unequipWeapon()
     {
         if (weapon != nullptr)
         {
-            std::cout << heroName << "unequipped " << weapon->getName() << "!\n";
+            std::cout << heroName << " unequipped " << weapon->getName() << "!\n";
             weapon = nullptr;
         }
     }
@@ -204,7 +205,7 @@ public:
         }
         else
         {
-            std::cout << heroName << "attacks with bare hands! damage: " << attackDamage << "\n";
+            std::cout << heroName << " attacks with bare hands! damage: " << attackDamage << "\n";
         }
     }
 
@@ -213,6 +214,13 @@ public:
         stats.modifyHealth(p.getHealthBoost());
         attackDamage += p.getAttackBoost();
         std::cout << heroName << " used a potion! Health: " << stats.getHealth() << " Attack: " << attackDamage << "\n";
+    }
+
+    ~Hero()
+    {
+        guild = nullptr;
+        weapon = nullptr;
+        std::cout << heroName << " has died!\n";
     }
 };
 
@@ -224,18 +232,17 @@ int main(int, char **)
     Potion myPotion(50, 10);
 
     // Create hero on heap to show that guild lives after he dies
-    Hero *hero = new Hero(1, "Arthas", 10, "Flamme", 20, 100, 50);
+    Hero hero = Hero(1, "Arthas", 10, "Flamme", 20, 100, 50);
 
-    hero->joinGuild(&myGuild);
-    hero->equipWeapon(&mySword);
+    hero.joinGuild(&myGuild);
+    hero.equipWeapon(&mySword);
 
-    hero->attack();
-    hero->usePotion(myPotion);
-    hero->attack();
+    hero.attack();
+    hero.usePotion(myPotion);
+    hero.attack();
 
-    hero->leaveGuild();
-    delete hero;
-    hero = nullptr;
+    hero.leaveGuild();
+    delete &hero;
 
     std::cout << "\n--- After the heros death ---\n";
     std::cout << "Guild '" << myGuild.getGuildName()
