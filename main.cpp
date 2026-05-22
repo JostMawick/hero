@@ -75,7 +75,7 @@ public:
     Sword(std::string n, int d, int s) : Weapon(n, d), sharpness(s) {}
     void attack() override
     {
-        std::cout << "Slash with " << name << "\n damage: " << (baseDamage + sharpness) << "\n";
+        std::cout << "Slash with " << name << " damage: " << (baseDamage + sharpness) << "\n";
     }
 };
 
@@ -158,6 +158,7 @@ public:
           soulMark(tattoo, boost),
           stats(h + boost, m)
     {
+        std::cout << "Hero " << heroName << " created with tattoo " << soulMark.getTattooName() << "!\n";
     }
 
     std::string getName()
@@ -216,11 +217,9 @@ public:
         std::cout << heroName << " used a potion! Health: " << stats.getHealth() << " Attack: " << attackDamage << "\n";
     }
 
-    ~Hero()
+    void showStats()
     {
-        guild = nullptr;
-        weapon = nullptr;
-        std::cout << heroName << " has died!\n";
+        std::cout << "Hero: " << heroName << " Health: " << stats.getHealth() << " Mana: " << stats.getMana() << " Attack Damage: " << attackDamage << "\n";
     }
 };
 
@@ -230,19 +229,25 @@ int main(int, char **)
     Guild myGuild("Dragon Slayers", 5);
     Sword mySword("Excalibur", 30, 15);
     Potion myPotion(50, 10);
+    std::cout << "Guild '" << myGuild.getGuildName() << "' has " << myGuild.getMemberCount() << " members!\n";
 
-    // Create hero on heap to show that guild lives after he dies
-    Hero hero = Hero(1, "Arthas", 10, "Flamme", 20, 100, 50);
+    {
+        Hero hero = Hero(1, "Arthas", 10, "Flamme", 20, 100, 50);
 
-    hero.joinGuild(&myGuild);
-    hero.equipWeapon(&mySword);
-
-    hero.attack();
-    hero.usePotion(myPotion);
-    hero.attack();
-
-    hero.leaveGuild();
-    delete &hero;
+        hero.joinGuild(&myGuild);
+        std::cout << "Guild '" << myGuild.getGuildName() << "' has " << myGuild.getMemberCount() << " members!\n";
+        hero.attack();
+        hero.equipWeapon(&mySword);
+        hero.attack();
+        hero.showStats();
+        hero.usePotion(myPotion);
+        hero.attack();
+        hero.unequipWeapon();
+        hero.attack();
+        hero.leaveGuild();
+        std::cout << "Scope of hero ends (hero dies)\n";
+    }
+    // hero.showStats(); //=> ERROR: hero is out of scope and cannot be accessed here, Guild and Sword still exist.
 
     std::cout << "\n--- After the heros death ---\n";
     std::cout << "Guild '" << myGuild.getGuildName()
